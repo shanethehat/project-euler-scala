@@ -3,7 +3,7 @@ package Util
 /**
  * Find primes up to max
  */
-class EratosthenesSieve(max:Long) {
+class EratosthenesSieve(largestPrime:Long = Int.MaxValue, maximumPrimes:Int = Int.MaxValue) {
   var multiplier:Long = 3
   var primes = List[Long](2)
 
@@ -20,7 +20,16 @@ class EratosthenesSieve(max:Long) {
     true
   }
 
-  while (multiplier <= max) {
+  val stopper = if (largestPrime < Int.MaxValue)
+    () => {
+      multiplier <= largestPrime
+    }
+  else
+     () => {
+      primes.size < maximumPrimes
+    }
+
+  while (stopper()) {
     if (primeCheck(multiplier)) {
       primes = primes :+ multiplier
     }
