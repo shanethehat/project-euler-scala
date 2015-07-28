@@ -14,22 +14,18 @@ package Problem
 class Problem06 extends Problem{
   override def run(): String = {
     val numbers = 1 to 100
-    val sumOfSquares = getSumOfSquares(numbers)
-    val squareOfSums = getSquareOfSums(numbers)
+    val sumOfSquares = {
+      var sum = 0
+      for (n <- numbers) {
+        sum += n * n
+      }
+      sum
+    }
+    val squareOfSums = {
+      val sum = numbers.sum
+      sum * sum
+    }
 
     "The sum square difference is: " + (squareOfSums - sumOfSquares)
-  }
-
-  private def getSumOfSquares(numbers:Range):Int = {
-    var sum = 0
-    for (n <- numbers) {
-      sum += n * n
-    }
-    sum
-  }
-
-  private def getSquareOfSums(numbers:Range):Int = {
-    val sum = numbers.sum
-    sum * sum
   }
 }

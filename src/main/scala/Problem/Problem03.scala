@@ -8,22 +8,26 @@ import Util.EratosthenesSieve
  * What is the largest prime factor of the number 600851475143 ?
  */
 class Problem03 extends Problem {
+  private val original = 600851475143L
+  private val limit = Math.sqrt(original).toLong
+  private val sieve = new EratosthenesSieve(limit)
+
   override def run(): String = {
-    val original = 600851475143L
-    val limit = Math.sqrt(original).toLong
-
-    val sieve = new EratosthenesSieve(limit)
-
-    val testValues = Range.Long.apply(3, limit, 2).reverse
-
-    for (i:Long <- testValues) {
-      val divided = original / i
-      if (original % divided == 0 && sieve.isPrime(i)) {
-        return "Largest Prime is: " + i
-      }
-    }
-
-    "Something has gone wrong, no prime was found"
+    val start = if (limit % 2 == 0) limit + 1 else limit
+    "Largest Prime is: " + findPrimeDescending(start)
   }
 
+  private def findPrimeDescending(subject:Long):Long = {
+    if (subject < 1) {
+      throw new Exception("Prime subject " + subject + " is out of bounds")
+    }
+
+    val divided = original / subject
+
+    if (original % divided == 0 && sieve.isPrime(subject)) {
+      subject
+    } else {
+      findPrimeDescending(subject - 2)
+    }
+  }
 }

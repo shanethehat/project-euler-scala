@@ -6,22 +6,28 @@ package Problem
  * What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
  */
 class Problem05 extends Problem {
+  private val startingPoint = 2522
+  private val maxDivisor = 20
+
   override def run(): String = {
-    "The smallest number to divide by all the integers from 1 to 20 is: " + findNumber(2522)
+    val solution = findNumber(startingPoint)
+    "The smallest number to divide by all the integers from 1 to 20 is: " + solution
   }
 
   private def findNumber(number:Int):Int = {
-    if (dividesByEverything(number)) {
-      return number
-    }
-    findNumber(number + 2)
-  }
 
-  private def dividesByEverything(number:Int):Boolean = {
-    for (d <- 1 to 20) {
-      if (number % d != 0)
-        return false
+    def dividesBy(subject:Int, divisor:Int, limit:Int):Boolean = {
+      if (divisor > limit) {
+        true
+      } else {
+        if (subject % divisor == 0) dividesBy(subject, divisor + 1, limit) else false
+      }
     }
-    true
+
+    if (dividesBy(number, 2, maxDivisor)) {
+      number
+    } else {
+      findNumber(number + 2)
+    }
   }
 }

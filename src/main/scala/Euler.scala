@@ -13,31 +13,38 @@ object Euler {
     """.stripMargin
 
   def main(args:Array[String]): Unit = {
-    if (args.length == 0) {
-      println(usage)
-      return
+    val output = if (args.length == 0) {
+      usage
+    } else {
+      runProblem(args)
     }
 
+    println(output)
+  }
+
+  private def runProblem(args: Array[String]) = {
     val className = "Problem.Problem" + args(0)
+    var output = ""
 
     try {
-      val problem:Problem = Class.forName(className).newInstance.asInstanceOf[Problem]
-
       val startTime = System.currentTimeMillis()
-      val result: String = problem.run
+      val problem:Problem = Class.forName(className).newInstance.asInstanceOf[Problem]
+      val result: String = problem.run()
       val stopTime = System.currentTimeMillis()
 
-      println("Elapsed time: " + (stopTime - startTime) + "ms")
-      println(result)
+      output += "Elapsed time: " + (stopTime - startTime) + "ms\n"
+      output += result + sys.props("line.separator")
 
     } catch {
       case classException:ClassNotFoundException =>
-        println(className + " does not exist")
+        output += className + " does not exist" + sys.props("line.separator")
       case typeException:NoClassDefFoundError =>
-        println(className + " is not a valid Problem class")
+        output += className + " is not a valid Problem class"
       case e:Exception =>
-        println("An unexpected error has occurred: " + e.getMessage)
+        output += "An unexpected error has occurred: " + e.getMessage
     }
+
+    output
   }
 }
 

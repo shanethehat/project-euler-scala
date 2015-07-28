@@ -18,8 +18,7 @@ class Problem02 extends Problem {
       value1 = value2
       value2 = term
 
-      if (term % 2 == 0)
-        total += term
+      if (term % 2 == 0) total += term
     }
 
     "Sum of even numbers: " + total

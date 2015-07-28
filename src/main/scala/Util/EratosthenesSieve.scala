@@ -4,30 +4,35 @@ package Util
  * Find primes up to max
  */
 class EratosthenesSieve(largestPrime:Long = Int.MaxValue, maximumPrimes:Int = Int.MaxValue) {
-  var multiplier:Long = 3
-  var primes = List[Long](2)
+  private var multiplier:Long = 3
+  private var primes = List[Long](2)
 
   private def primeCheck(subject:Long):Boolean = {
     val root = Math.sqrt(subject.toDouble)
-    for (n <- primes) {
-      if (subject % n == 0) {
-        return false
-      }
-      if (n >root) {
-        return true
+
+    def checkPrime(subject:Long, count:Int):Boolean = {
+      val prime = primes(count)
+      if (subject % prime == 0) {
+        false
+      } else if (prime > root) {
+        true
+      } else {
+        checkPrime(subject, count + 1)
       }
     }
-    true
+
+    checkPrime(subject, 0)
   }
 
-  val stopper = if (largestPrime < Int.MaxValue)
+  val stopper = if (largestPrime < Int.MaxValue) {
     () => {
       multiplier <= largestPrime
     }
-  else
-     () => {
+  } else {
+    () => {
       primes.size < maximumPrimes
     }
+  }
 
   while (stopper()) {
     if (primeCheck(multiplier)) {
@@ -36,11 +41,11 @@ class EratosthenesSieve(largestPrime:Long = Int.MaxValue, maximumPrimes:Int = In
     multiplier += 2
   }
 
-  def isPrime(value:Long) = {
+  def isPrime(value:Long):Boolean = {
     primes.contains(value)
   }
 
-  def getLargest = {
+  def getLargest:Long = {
     primes.last
   }
 }

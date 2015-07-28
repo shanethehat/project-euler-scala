@@ -62,8 +62,7 @@ class Problem08 extends Problem {
 
         section.foreach((n) =>total = total * n)
 
-        if (total > largest)
-          largest = total
+        if (total > largest)  largest = total
       }
     }
 

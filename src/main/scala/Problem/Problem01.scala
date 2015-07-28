@@ -14,8 +14,7 @@ class Problem01() extends Problem {
     var total = 0
 
     while (i < 1000) {
-      if (i % 3 == 0 || i % 5 == 0)
-        total += i
+      if (i % 3 == 0 || i % 5 == 0)  total += i
       i += 1
     }
 

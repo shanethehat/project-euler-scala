@@ -8,13 +8,14 @@ package Problem
 class Problem04 extends Problem {
   override def run(): String = {
     var palindromes:List[Int] = List[Int]()
+
     for (a <- 100 to 999) {
       for (b <- a to 999) {
         val product = a * b
-        if (isPalindrome(product))
-         palindromes = palindromes :+ product
+        if (isPalindrome(product)) palindromes = palindromes :+ product
       }
     }
+
     palindromes = palindromes.sorted
     "The largest palindrome is: " + palindromes.last
   }
